@@ -6,6 +6,34 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-L.marker([41.401796 , 2.1643253]).addTo(map);
-L.marker([41.402796 , 2.1643263]).addTo(map);
-L.marker([41.401786 , 2.1633253]).addTo(map);
+//L.marker([41.404796 , 2.1623253]).addTo(map);
+
+fetch('api/bicicletas', {
+    headers: {
+      accept: 'application/json'
+    }
+  })
+  .then(res => res.json())
+  .then(result => {
+    console.log(result);
+    result.bicicletas.forEach(function (bici) {
+        L.marker(bici.ubicacion, {title: bici.id}).addTo(map);
+    });
+  })
+  .catch(err => alert('Algo salió mal '+err));
+  
+
+/* $.ajax({
+    dataType: "json",
+    url: "api/bicicletas",
+    success: function(result) {
+        alert(result);
+        result.bicicletas.forEach(function (bici) {
+            L.marker(bici.ubicacion, {title: bici.id}).addTo(map);
+        })
+    },
+    error : function(xhr, status) {
+        alert('Disculpe, existió un problema'+status);
+    },
+})
+ */
