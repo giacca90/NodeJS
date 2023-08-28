@@ -7,5 +7,4 @@ router.post('/create', bicicletaController.bicicleta_create);
 router.delete('/delete', bicicletaController.bicicleta_delete);
 router.post('/update', bicicletaController.bicicleta_update);
 
-
 module.exports = router;
