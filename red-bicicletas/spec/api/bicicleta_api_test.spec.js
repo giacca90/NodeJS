@@ -2,7 +2,38 @@ var Bicicleta = require('../../models/bicicleta');
 var request = require('request');
 var server = require('../../bin/www')
 
+var base_url = "http://localhost:3000/api/bicicletas"
+
+
+
 describe('Bicicleta API', () => {
+
+    beforeEach(function(done) {
+        var mongoDB = 'mongodb://localhost/testdb';
+        mongoose.connect(mongoDB, { useNewUrlParser: true});
+
+        const db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error'));
+        db.once('open', function() {
+            console.log('We are connected to test database!');
+            done();
+        });
+    })
+
+    beforeAll(function(done) {
+
+        var mongoDB = 'mongodb://localhost/testdb';
+        mongoose.connect(mongoDB, { useNewUrlParser: true});
+
+        const db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error'));
+        db.once('open', function() {
+            console.log('We are connected to test database!');
+            done();
+        });
+    });
+
+
     describe('GET BICICLETAS', () => {
         it('Status 200', () => {
             expect(Bicicleta.allBicis.length).toBe(0);
