@@ -44,24 +44,27 @@ describe("Testing Unitarios", function () {
           color: "verde",
           modelo: "urbana",
         });
-        bicicleta.save().then(async () => {
+        bicicleta.save().then(() => {
           var hoy = new Date();
           var manana = new Date();
           manana.setDate(hoy.getDate() + 1);
-          usuario.reservar(bicicleta.id, hoy, manana).then();
-          var res = Reserva.find({})
-            .populate("bicicleta")
-            .populate("usuario")
-            .exec();
-          console.log("RES: " + res);
-          res.then((reservas) => {
-            console.log("LOG DE RESERVAS \n" + reservas);
-            expect(reservas.length).toBe(1);
-            expect(reservas[0].diasDeReserva()).toBe(2);
-            expect(reservas[0].bicicleta.code).toBe(1);
-            expect(reservas[0].usuario.nombre).toBe(usuario.nombre);
-            done();
+          usuario.reservar(bicicleta.id, hoy, manana).then(() => {
+          Reserva.find({})
+            .populate('bicicleta')
+            .populate('usuario')
+            .then(reservas => {
+              console.log("RES: " + reservas);
+              
+                console.log("LOG DE RESERVAS \n" + reservas);
+                expect(reservas.length).toBe(1);
+                expect(reservas[0].diasDeReserva()).toBe(2);
+                expect(reservas[0].bicicleta.code).toBe(1);
+                expect(reservas[0].usuario.nombre).toBe(usuario.nombre);
+                done();
+            }).catch(err => console.log("ERROR!!! "+err));
+          
           });
+          
         });
       });
     });
